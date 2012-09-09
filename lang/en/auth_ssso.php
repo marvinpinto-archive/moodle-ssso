@@ -18,7 +18,7 @@
 
 $string['auth_sssotitle'] = 'Simple SSO Configuration';
 $string['pluginname'] = 'Simple Single Sign-On (SSSO)';
-$string['auth_sssodescription'] = 'This authentication plugin allows Moodle to behave like a SSO source so that other systems may authenticate users already logged into Moodle.';
+$string['auth_sssodescription'] = 'This plugin allows Moodle to issue custom SSO cookies so that other services/applications within the cookie domain may authenticate and validate logged-in Moodle users.';
 
 $string['ssso_cookiename_label'] = 'Cookie name';
 $string['ssso_cookiename_desc'] = 'Name assigned to the SSO cookie';
