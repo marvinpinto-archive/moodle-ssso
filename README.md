@@ -53,6 +53,9 @@ know](https://github.com/marvinpinto/moodle-ssso/issues) if this isn't the case.
 Then log in as a user with administrator rights and go to `Site Administration
 -> Notifications` where you will install this like any other Moodle plugin.
 
+**Don't forget to set the appropriate web permissions on the `auth/ssso`
+  directory.**
+
 
 
 <a name="configuration"></a>
