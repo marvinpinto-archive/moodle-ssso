@@ -17,7 +17,7 @@
 
 if (!defined('MOODLE_INTERNAL')) {
   die('Direct access to this script is forbidden.');    // It must be included
-							// from a Moodle page
+                                                        // from a Moodle page
 }
 
 
@@ -27,15 +27,13 @@ function ssso_get_cookie_value($key, $username, $ip, $expiry) {
   $mval .= 'IP=' .$ip. '|';
   $mval .= 'expiry=' .$expiry;
 
-  return trim(base64_encode
-	      (mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key,
-			      $mval, MCRYPT_MODE_CBC,
-			      mcrypt_create_iv
-			      (mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256,
-						  MCRYPT_MODE_CBC),
-			       MCRYPT_RAND))
-	       ));
+  $enc_val = trim(base64_encode(openssl_encrypt($mval, 'des-cbc', $key)));
+  return $enc_val;
+}
 
+function decrypt($text, $salt) {
+  $dec_val = trim(openssl_decrypt(base64_decode($text), 'des-cbc', $salt));
+  return $dec_val;
 }
 
 ?>

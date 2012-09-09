@@ -99,7 +99,6 @@ class auth_plugin_ssso extends auth_plugin_base {
    * @return void
    */
   function ssso_set_sso_cookie($username='') {
-    print 'About to set cookie!!';
     $cookiename = $this->config->ssso_cookiename;
     $cookiepath = $this->config->ssso_cookiepath;
     $cookiedomain = $this->config->ssso_cookiedomain;

@@ -53,15 +53,6 @@ know](https://github.com/marvinpinto/moodle-ssso/issues) if this isn't the case.
 Then log in as a user with administrator rights and go to `Site Administration
 -> Notifications` where you will install this like any other Moodle plugin.
 
-### Mcrypt
-
-Note that since this plugin uses PHP's `mcrypt_encrypt` function, the
-corresponding `mcrypt` module will need to be installed if not already
-present. On Debian based systems, it's a simple matter of:
-
-    $ apt-get install php5-mcrypt
-    $ /etc/init.d/apache2 restart
-
 
 
 <a name="configuration"></a>
@@ -143,19 +134,15 @@ also try to keep cookie validity period reasonably low.
 
 ### Encryption and Decryption
 
-The plaintext cookie is encrypted using AES 256, CBC mode. Here are a few
+The plaintext cookie is encrypted using OpenSSL DES in CBC mode. Here are a few
 decryption examples:
 
 
 #### PHP
 ```php
 function decrypt($text, $salt) {
-  return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $salt, base64_decode($text),
-                             MCRYPT_MODE_CBC,
-                             mcrypt_create_iv(mcrypt_get_iv_size
-                                              (MCRYPT_RIJNDAEL_256,
-                                               MCRYPT_MODE_CBC),
-                                              MCRYPT_RAND))); 
+  $dec_val = trim(openssl_decrypt(base64_decode($text), 'des-cbc', $salt));
+  return $dec_val;
 }
 $data = decrypt($_COOKIE['COOKIENAME'], 'longsecretsalt');
 ```
@@ -163,10 +150,18 @@ $data = decrypt($_COOKIE['COOKIENAME'], 'longsecretsalt');
 
 #### .NET
 
-[Here](http://www.xuchao.org/docs/php/function.mcrypt-encrypt.html) is some good
-information on decrypting `mcrypt` encrypted information. I'll get around to
-posting a comprehensive .NET example eventually.
+I'll get around to posting a comprehensive .NET example eventually.
 
+
+### Example
+Assume the following encrypted (cookie) value:
+
+    eGI4azhhc2RabzFERUNKTlBZVFVOMHJOSzRxRVMzU0dkMys0dkNmaTlZRDcxMVREQVhpOUdUZ3pCc0pyZUYzRnVQbC83ZGE4aC8wPQ==
+
+Using the example PHP function `decrypt` and the passphrase `super$ecretPwd`,
+the corresponding decrypted value is:
+
+    username=admin|IP=75.119.224.3|expiry=1347239954
 
 
 <a name="contributing"></a>
