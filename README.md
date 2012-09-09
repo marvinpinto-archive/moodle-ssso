@@ -27,8 +27,8 @@ authenticate and validate logged-in Moodle users.
 ### Background
 
 For organizations that do not have a readily available CAS, Shibboleth, or
-similar environment achieving true (roaming) single sign-on with Moodle isn't as
-easy as it should be.
+similar environment, achieving true (roaming) single sign-on with Moodle isn't
+as easy as it should be.
 
 This authentication module is geared for environments where roaming SSO is
 needed between Moodle (acting as the source) and custom (modifiable)
