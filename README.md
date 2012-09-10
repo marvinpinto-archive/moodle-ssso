@@ -135,6 +135,26 @@ out of Moodle. It is for this reason that users should be encouraged to
 also try to keep cookie validity period reasonably low.
 
 
+### Security Considerations
+
+The major security concern associated with a scheme using cookies is [session
+hijacking](http://en.wikipedia.org/wiki/Session_hijacking). This is alleviated
+right off the bat by using HTTPS and _also_ encrypting the cookie contents
+(separately).
+
+The main purpose of encrypting the contents of the cookie is to thwart "casual
+snoopers" and combined with the following guidelines should (theoretically)
+reduce the probability of a session hijacking (or similar cookie related
+exploit) to negligible levels:
+
+ - **Change the salt passphrase at least once a month.**
+
+ - Minimize the cookie validity as much as possible.
+
+ - Respect the [SSSO
+   protocol](https://github.com/marvinpinto/moodle-ssso#overview).
+
+
 ### Encryption and Decryption
 
 The plaintext cookie is encrypted using OpenSSL DES in CBC mode. Here are a few
