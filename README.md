@@ -11,7 +11,6 @@
  - [Contributing](#contributing)
  - [License](#license)
  - [Download](#download)
- - [Revision History](#revisionhistory)
  - [Author](#author)
 
 
@@ -224,13 +223,6 @@ limitations under the License.
  - Zip: [marvinpinto-moodle-ssso.zip](https://github.com/marvinpinto/moodle-ssso/zipball/master)
  - Source code:
    [marvinpinto/moodle-ssso](https://github.com/marvinpinto/moodle-ssso)
-
-
-
-<a name="revisionhistory"></a>
-## Revision History
-
- - 20120909 (Sep 9, 2012 - Initial version)
 
 
 <a name="author"></a>
