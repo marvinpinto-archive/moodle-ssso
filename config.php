@@ -55,7 +55,7 @@ global $CFG;
 
   <tr valign="top">
   <td align="right"><?php print_string('ssso_cookiesecret_label', 'auth_ssso') ?></td>
-  <td><input name="ssso_cookiesecret" type="text" value="<?php echo htmlspecialchars($config->ssso_cookiesecret) ?>" /></td>
+  <td><input name="ssso_cookiesecret" type="password" value="<?php echo htmlspecialchars($config->ssso_cookiesecret) ?>" /></td>
   <td><?php print_string('ssso_cookiesecret_desc', 'auth_ssso') ?></td>
   </tr>
 
