@@ -201,8 +201,7 @@ limitations under the License.
 <a name="download"></a>
 ## Download
 
- - Zip: [MoodleSSSO-20120909.zip](https://github.com/downloads/marvinpinto/moodle-ssso/MoodleSSSO-20120909.zip)
- - Gzip: [MoodleSSSO-20120206.tar.gz](https://github.com/downloads/marvinpinto/moodle-ssso/MoodleSSSO-20120909.tar.gz)
+ - Zip: [MoodleSSSO-20120909.zip](https://github.com/marvinpinto/moodle-ssso/zipball/master)
  - Source code:
    [marvinpinto/moodle-ssso](https://github.com/marvinpinto/moodle-ssso)
 
