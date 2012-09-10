@@ -12,12 +12,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-This product includes the Apache Commons Lang 3.1 library developed by the
-Apache Software Foundation, under the Apache License 2.0.
-
-This product includes the Gson 2.1 library developed by Google Inc., under the
-Apache License 2.0.
-
-This product includes the JSoup 1.6.1 library developed by Jonathan Hedley,
-under the MIT license.
-
