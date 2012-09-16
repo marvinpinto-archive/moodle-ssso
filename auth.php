@@ -115,7 +115,7 @@ class auth_plugin_ssso extends auth_plugin_base {
       $m_user = $DB->get_record('user', array('username'=>$username));
       $m_email = $m_user->email;
       if (! $m_email) {
-	$m_email = '';
+        $m_email = '';
       }
 
       $ck_ip = $_SERVER["REMOTE_ADDR"];
