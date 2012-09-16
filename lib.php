@@ -21,9 +21,10 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 
-function ssso_get_cookie_value($key, $username, $ip, $expiry) {
+function ssso_get_cookie_value($key, $username, $ip, $expiry, $email) {
   $mval = '';
   $mval .= 'username=' .$username. '|';
+  $mval .= 'email=' .$email. '|';
   $mval .= 'IP=' .$ip. '|';
   $mval .= 'expiry=' .$expiry;
 

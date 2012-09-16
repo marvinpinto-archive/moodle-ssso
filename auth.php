@@ -44,7 +44,7 @@ class auth_plugin_ssso extends auth_plugin_base {
 
 
   // Create a new SSO compatible cookie for this user.
-  function user_authenticated_hook($user, $username, $password) {
+  function user_authenticated_hook(&$user, $username, $password) {
     $this->ssso_set_sso_cookie($username);
   }
 
@@ -99,6 +99,8 @@ class auth_plugin_ssso extends auth_plugin_base {
    * @return void
    */
   function ssso_set_sso_cookie($username='') {
+    global $DB;
+
     $cookiename = $this->config->ssso_cookiename;
     $cookiepath = $this->config->ssso_cookiepath;
     $cookiedomain = $this->config->ssso_cookiedomain;
@@ -110,11 +112,17 @@ class auth_plugin_ssso extends auth_plugin_base {
 
     // Issue a new SSO cookie
     if ($username != '') {
+      $m_user = $DB->get_record('user', array('username'=>$username));
+      $m_email = $m_user->email;
+      if (! $m_email) {
+	$m_email = '';
+      }
+
       $ck_ip = $_SERVER["REMOTE_ADDR"];
       $ck_username = $username;
       $ck_expiry = time()+(HOURSECS*$cookieexpiry);
       $cookievalue = ssso_get_cookie_value($cookiekey, $ck_username,
-                                           $ck_ip, $ck_expiry);
+                                           $ck_ip, $ck_expiry, $m_email);
       setcookie($cookiename, $cookievalue, $ck_expiry,
                 $cookiepath, $cookiedomain);
     }

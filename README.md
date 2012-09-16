@@ -116,7 +116,7 @@ following protocol will need to be adhered to:
 
 ### Cookie Format
 
-    username=<moodle username>|IP=<a.b.c.d>|expiry=<unix epoch time>
+    username=<moodle username>|email=<full email>|IP=<a.b.c.d>|expiry=<unix epoch time>
 
  - Note that the expiry date/time in the encrypted payload is encoded as [Unix
    epoch time](http://en.wikipedia.org/wiki/Unix_time).
@@ -178,12 +178,12 @@ I'll get around to posting a comprehensive .NET example eventually.
 ### Example
 Assume the following encrypted (cookie) value:
 
-    eGI4azhhc2RabzFERUNKTlBZVFVOMHJOSzRxRVMzU0dkMys0dkNmaTlZRDcxMVREQVhpOUdUZ3pCc0pyZUYzRnVQbC83ZGE4aC8wPQ==
+    eGI4azhhc2RabzN5SUFLY0IrbUFWOTA0QUJCdUw4QWd5citPQXZyYk5BQUZYMkduMWtmVGZGTklPMlRFSWttR1h3WHpuZ1Q3UDAwSkNIMTZuOHZSV3RnWFBPK2dCUlRTSEZKeTJ6Smw1dmNSaVd4YnEyajVZZz09
 
 Using the example PHP function `decrypt` and the passphrase `super$ecretPwd`,
 the corresponding decrypted value is:
 
-    username=admin|IP=75.119.224.3|expiry=1347239954
+    username=admin|email=helpdesk@schulich.yorku.ca|IP=206.248.176.158|expiry=1347840881
 
 
 <a name="contributing"></a>
