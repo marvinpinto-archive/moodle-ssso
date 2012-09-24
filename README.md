@@ -315,7 +315,7 @@ limitations under the License.
 ## Download
 
  - Zip: [marvinpinto-moodle-ssso.zip](https://github.com/marvinpinto/moodle-ssso/zipball/master)
- - Tarball: [marvinpinto-moodle-ssso.zip](https://github.com/marvinpinto/moodle-ssso/tarball/master)
+ - Tarball: [marvinpinto-moodle-ssso.tar.gz](https://github.com/marvinpinto/moodle-ssso/tarball/master)
  - Source code:
    [marvinpinto/moodle-ssso](https://github.com/marvinpinto/moodle-ssso)
 
