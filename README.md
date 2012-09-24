@@ -85,12 +85,12 @@ Authentication`. Proceed to _enable_ the module named `Simple Single Sign-On
  - `Expiry`: Cookie validity time in hours.
 
  - `Secret`: Secret 32 bit passphrase which will be used to encrypt and decrypt
-   the shared cookie. Have a look at [this PC Tools
+   the shared cookie. Have a look at this [PC Tools
    generator](http://www.pctools.com/guides/password/?length=32&alpha=on&mixedcase=on&numeric=on&quantity=15&generate=true#password_generator)
    for some interesting ideas.
 
  - `Salt`: 32 bit salt which will be used to encrypt and decrypt the shared
-   cookie. Have a look at [this PC Tools
+   cookie. Have a look at this [PC Tools
    generator](http://www.pctools.com/guides/password/?length=32&alpha=on&mixedcase=on&numeric=on&quantity=15&generate=true#password_generator)
    for some interesting ideas.
 
@@ -163,7 +163,7 @@ exploit) to negligible levels:
 ### Encryption and Decryption
 
 The plaintext cookie can be encrypted using either OpenSSL DES in CBC mode or
-AES256. See the
+AES256. Look through the
 [lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) for
 the relevant functions.
 
@@ -179,7 +179,7 @@ PHP examples.
 
 Here's an ASP.NET (C#) example copied verbatim from [this](http://vivavivugeek.blogspot.ca/2012/05/encrypt-by-php-decrypt-by-aspnet-c-and.html) page:
 
-```.net
+```c#
 public static string DecryptRJ256(string prm_key, string prm_iv,
                                   string prm_text_to_decrypt) {
 
@@ -261,19 +261,22 @@ protected void Page_Load(object sender, EventArgs e) {
 
 ### Example
 
-Following is an example of an **AES256** encrypted cookie:
+Using the following _key_ and _salt_ values:
 
  - Key: `9iebLEDo8SiunOewl1ciE7lAvoaQlekI`
  - Salt: `biastO6fIu02Az8APrletIuY0u36A1IU`
- - Encrypted: `T5Ew+cLmle3wcubDbcrx/dDN374ntABXJpqj+CX9Twy58PaTi0DOu2e0i2WeQIIlyBzk97sSUbKYbTQ0VnppJToAkaQn5nQrAVM/9HUewa3jO2mCqHsZXbF9faCl50YO`
- - Decrypted: `username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348510950`
 
-Following is an example of an **OpenSSL** encrypted cookie:
+**AES256** encrypted cookie:
 
- - Key: `9iebLEDo8SiunOewl1ciE7lAvoaQlekI`
- - Salt: N/A
- - Encrypted: `OfRbBd/Cx+mGlwVoxN/Dh/wGxMVNF5UaIxXlIrNOIzL4h3r27HjjKQzRzS8TLzTDdbEBb96narCWsLnOx6w+xrCZF3S/6FoOBEDNw4VciDkAz8V4z/WVKg==`
- - Decrypted: `username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348511353`
+    T5Ew+cLmle3wcubDbcrx/dDN374ntABXJpqj+CX9Twy58PaTi0DOu2e0i2WeQIIlyBzk97sSUbKYbTQ0VnppJToAkaQn5nQrAVM/9HUewa3jO2mCqHsZXbF9faCl50YO
+
+**OpenSSL** encrypted cookie:
+
+    OfRbBd/Cx+mGlwVoxN/Dh/wGxMVNF5UaIxXlIrNOIzL4h3r27HjjKQzRzS8TLzTDdbEBb96narCWsLnOx6w+xrCZF3S/6FoOBEDNw4VciDkAz8V4z/WVKg==
+
+**Decrypted** contents:
+
+    username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348511353
 
 
 
