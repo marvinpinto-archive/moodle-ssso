@@ -18,7 +18,7 @@
 
 if (!defined('MOODLE_INTERNAL')) {
   die('Direct access to this script is forbidden.');    //  It must be included
-  							// from a Moodle page
+                                                        // from a Moodle page
 }
 
 global $CFG;
@@ -57,6 +57,13 @@ global $CFG;
   <td align="right"><?php print_string('ssso_cookiesecret_label', 'auth_ssso') ?></td>
   <td><input name="ssso_cookiesecret" type="password" value="<?php echo htmlspecialchars($config->ssso_cookiesecret) ?>" /></td>
   <td><?php print_string('ssso_cookiesecret_desc', 'auth_ssso') ?></td>
+  </tr>
+
+
+  <tr valign="top">
+  <td align="right"><?php print_string('ssso_cookiesalt_label', 'auth_ssso') ?></td>
+  <td><input name="ssso_cookiesalt" type="text" value="<?php echo htmlspecialchars($config->ssso_cookiesalt) ?>" /></td>
+  <td><?php print_string('ssso_cookiesalt_desc', 'auth_ssso') ?></td>
   </tr>
 
 

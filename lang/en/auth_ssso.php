@@ -40,6 +40,10 @@ $string['ssso_cookiesecret_label'] = 'Secret';
 $string['ssso_cookiesecret_desc'] = 'The shared secret used to encrypt/decrypt SSO cookies';
 $string['ssso_cookiesecret_default'] = 'super$ecretPwd';
 
+$string['ssso_cookiesalt_label'] = 'Salt';
+$string['ssso_cookiesalt_desc'] = 'The shared salt value';
+$string['ssso_cookiesalt_default'] = '2EAEDD563B91B6D5458F53A5086F4594';
+
 $string['ssso_update_label'] = 'Info:';
 $string['ssso_update_desc'] = 'For more information and updates, please visit the Simple Single Sign-On project page on GitHub: <a href="https://github.com/marvinpinto/moodle-ssso" target="_blank">github.com/marvinpinto/moodle-ssso</a>';
 

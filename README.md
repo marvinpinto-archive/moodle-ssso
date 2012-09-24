@@ -84,9 +84,15 @@ Authentication`. Proceed to _enable_ the module named `Simple Single Sign-On
 
  - `Expiry`: Cookie validity time in hours.
 
- - `Secret`: Secret passphrase (salt) which will be used to encrypt and decrypt
-   the shared cookie. Have a look at [this salt
-   generator](http://dev.moodle.org/gensalt.php) for some nifty values.
+ - `Secret`: Secret 32 bit passphrase which will be used to encrypt and decrypt
+   the shared cookie. Have a look at [this PC Tools
+   generator](http://www.pctools.com/guides/password/?length=32&alpha=on&mixedcase=on&numeric=on&quantity=15&generate=true#password_generator)
+   for some interesting ideas.
+
+ - `Salt`: 32 bit salt which will be used to encrypt and decrypt the shared
+   cookie. Have a look at [this PC Tools
+   generator](http://www.pctools.com/guides/password/?length=32&alpha=on&mixedcase=on&numeric=on&quantity=15&generate=true#password_generator)
+   for some interesting ideas.
 
 
 <a name="ssoconsumer"></a>
@@ -156,34 +162,119 @@ exploit) to negligible levels:
 
 ### Encryption and Decryption
 
-The plaintext cookie is encrypted using OpenSSL DES in CBC mode. Here are a few
-decryption examples:
+The plaintext cookie can be encrypted using either OpenSSL DES in CBC mode or
+AES256. See the
+[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) for
+the relevant functions.
 
 
 #### PHP
-```php
-function decrypt($text, $salt) {
-  $dec_val = trim(openssl_decrypt(base64_decode($text), 'des-cbc', $salt));
-  return $dec_val;
-}
-$data = decrypt($_COOKIE['COOKIENAME'], 'longsecretsalt');
-```
+
+Have a look through the
+[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) for
+PHP examples.
 
 
 #### .NET
 
-I'll get around to posting a comprehensive .NET example eventually.
+Here's an ASP.NET (C#) example copied verbatim from [this](http://vivavivugeek.blogspot.ca/2012/05/encrypt-by-php-decrypt-by-aspnet-c-and.html) page:
+
+```.net
+public static string DecryptRJ256(string prm_key, string prm_iv,
+                                  string prm_text_to_decrypt) {
+
+  var sEncryptedString = prm_text_to_decrypt;
+
+  var myRijndael = new RijndaelManaged() {
+      Padding = PaddingMode.Zeros,
+        Mode = CipherMode.CBC,
+        KeySize = 256,
+        BlockSize = 256
+        };
+
+  var key = Encoding.ASCII.GetBytes(prm_key);
+  var IV = Encoding.ASCII.GetBytes(prm_iv);
+
+  var decryptor = myRijndael.CreateDecryptor(key, IV);
+
+  var sEncrypted = Convert.FromBase64String(sEncryptedString);
+
+  var fromEncrypt = new byte[sEncrypted.Length];
+
+  var msDecrypt = new MemoryStream(sEncrypted);
+  var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+
+  csDecrypt.Read(fromEncrypt, 0, fromEncrypt.Length);
+
+  return (Encoding.ASCII.GetString(fromEncrypt));
+}
+
+public static string EncryptRJ256(string prm_key, string prm_iv,
+                                  string prm_text_to_encrypt) {
+
+  var sToEncrypt = prm_text_to_encrypt;
+
+  var myRijndael = new RijndaelManaged() {
+      Padding = PaddingMode.Zeros,
+        Mode = CipherMode.CBC,
+        KeySize = 256,
+        BlockSize = 256
+        };
+
+  var key = Encoding.ASCII.GetBytes(prm_key);
+  var IV = Encoding.ASCII.GetBytes(prm_iv);
+
+  var encryptor = myRijndael.CreateEncryptor(key, IV);
+
+  var msEncrypt = new MemoryStream();
+  var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+
+  var toEncrypt = Encoding.ASCII.GetBytes(sToEncrypt);
+
+  csEncrypt.Write(toEncrypt, 0, toEncrypt.Length);
+  csEncrypt.FlushFinalBlock();
+
+  var encrypted = msEncrypt.ToArray();
+
+  return (Convert.ToBase64String(encrypted));
+}
+
+
+protected void Page_Load(object sender, EventArgs e) {
+  //Shared 256 bit Key and IV here
+
+  //32 chr shared ascii string (32 * 8 = 256 bit)
+  string sKy = " lkirwf897+22#bbtrm8814z5qq=498j5 ";
+
+  //32 chr shared ascii string (32 * 8 = 256 bit)
+  string sIV = " 741952hheeyy66#cs!9hjv887mxx7@8y ";
+
+  if(Request.QueryString["t"]!=null) {
+    string t = Request.QueryString["t"].ToString();
+    t = t.Trim().Replace(" ", "+");
+    Button1.Text = DecryptRJ256(sKy, sIV, t);
+  }
+}
+```
+
 
 
 ### Example
-Assume the following encrypted (cookie) value:
 
-    eGI4azhhc2RabzN5SUFLY0IrbUFWOTA0QUJCdUw4QWd5citPQXZyYk5BQUZYMkduMWtmVGZGTklPMlRFSWttR1h3WHpuZ1Q3UDAwSkNIMTZuOHZSV3RnWFBPK2dCUlRTSEZKeTJ6Smw1dmNSaVd4YnEyajVZZz09
+Following is an example of an **AES256** encrypted cookie:
 
-Using the example PHP function `decrypt` and the passphrase `super$ecretPwd`,
-the corresponding decrypted value is:
+ - Key: `9iebLEDo8SiunOewl1ciE7lAvoaQlekI`
+ - Salt: `biastO6fIu02Az8APrletIuY0u36A1IU`
+ - Encrypted: `T5Ew+cLmle3wcubDbcrx/dDN374ntABXJpqj+CX9Twy58PaTi0DOu2e0i2WeQIIlyBzk97sSUbKYbTQ0VnppJToAkaQn5nQrAVM/9HUewa3jO2mCqHsZXbF9faCl50YO`
+ - Decrypted: `username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348510950`
 
-    username=admin|email=helpdesk@schulich.yorku.ca|IP=206.248.176.158|expiry=1347840881
+Following is an example of an **OpenSSL** encrypted cookie:
+
+ - Key: `9iebLEDo8SiunOewl1ciE7lAvoaQlekI`
+ - Salt: N/A
+ - Encrypted: `OfRbBd/Cx+mGlwVoxN/Dh/wGxMVNF5UaIxXlIrNOIzL4h3r27HjjKQzRzS8TLzTDdbEBb96narCWsLnOx6w+xrCZF3S/6FoOBEDNw4VciDkAz8V4z/WVKg==`
+ - Decrypted: `username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348511353`
+
 
 
 <a name="contributing"></a>
@@ -221,6 +312,7 @@ limitations under the License.
 ## Download
 
  - Zip: [marvinpinto-moodle-ssso.zip](https://github.com/marvinpinto/moodle-ssso/zipball/master)
+ - Tarball: [marvinpinto-moodle-ssso.zip](https://github.com/marvinpinto/moodle-ssso/tarball/master)
  - Source code:
    [marvinpinto/moodle-ssso](https://github.com/marvinpinto/moodle-ssso)
 

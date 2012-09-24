@@ -21,20 +21,59 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 
-function ssso_get_cookie_value($key, $username, $ip, $expiry, $email) {
-  $mval = '';
-  $mval .= 'username=' .$username. '|';
-  $mval .= 'email=' .$email. '|';
-  $mval .= 'IP=' .$ip. '|';
-  $mval .= 'expiry=' .$expiry;
+function ssso_get_cookie_data($key, $salt, $username, $ip, $expiry, $email) {
+  $data = '';
+  $data .= 'username=' .$username. '|';
+  $data .= 'email=' .$email. '|';
+  $data .= 'IP=' .$ip. '|';
+  $data .= 'expiry=' .$expiry;
 
-  $enc_val = trim(base64_encode(openssl_encrypt($mval, 'des-cbc', $key)));
+  /* // Encrypt-decrypt using openssl */
+  /* $enc_val = encrypt_openssl($key, $salt, $data); */
+  /* debugging('Key: ' .$key. ' Salt: ' .$salt); */
+  /* debugging('Plain: ' .$data); */
+  /* debugging('Encrypted: ' .$enc_val); */
+  /* debugging('Decrypted: ' .decrypt_openssl($key, $salt, $enc_val)); */
+
+  // Encrypt-decrypt using mcrypt
+  $enc_val = encrypt_RJ256($key, $salt, $data);
+  /* debugging('Key: ' .$key. ' Salt: ' .$salt); */
+  /* debugging('Plain: ' .$data); */
+  /* debugging('Encrypted: ' .$enc_val); */
+  /* debugging('Decrypted: ' .decrypt_RJ256($key, $salt, $enc_val)); */
+
   return $enc_val;
 }
 
-function decrypt($text, $salt) {
-  $dec_val = trim(openssl_decrypt(base64_decode($text), 'des-cbc', $salt));
-  return $dec_val;
+
+function encrypt_openssl($key, $salt, $data) {
+  $enc_val = openssl_encrypt($data, 'des-cbc', $key, false);
+  $retval = trim($enc_val);
+  return $retval;
+}
+
+
+function decrypt_openssl($key, $salt, $data) {
+  $dec_val = openssl_decrypt($data, 'des-cbc', $key, false);
+  $retval = trim($dec_val);
+  return $retval;
+}
+
+
+function encrypt_RJ256($key, $salt, $data) {
+  $enc_val = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $data,
+                            MCRYPT_MODE_CBC, $salt);
+  $retval = base64_encode($enc_val);
+  return $retval;
+}
+
+
+function decrypt_RJ256($key, $salt, $data) {
+  $data = base64_decode($data);
+  $dec_val = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $data,
+                            MCRYPT_MODE_CBC, $salt);
+  $retval = rtrim($dec_val, "\0\4");
+  return $retval;
 }
 
 ?>

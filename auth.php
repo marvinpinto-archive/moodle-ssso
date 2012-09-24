@@ -62,7 +62,8 @@ class auth_plugin_ssso extends auth_plugin_base {
                   'ssso_cookiepath' => get_string('ssso_cookiepath_default', 'auth_ssso'),
                   'ssso_cookiedomain' => get_string('ssso_cookiedomain_default', 'auth_ssso'),
                   'ssso_cookieexpiry' => get_string('ssso_cookieexpiry_default', 'auth_ssso'),
-                  'ssso_cookiesecret' => get_string('ssso_cookiesecret_default', 'auth_ssso')
+                  'ssso_cookiesecret' => get_string('ssso_cookiesecret_default', 'auth_ssso'),
+                  'ssso_cookiesalt' => get_string('ssso_cookiesalt_default', 'auth_ssso')
                   );
   }
 
@@ -106,6 +107,7 @@ class auth_plugin_ssso extends auth_plugin_base {
     $cookiedomain = $this->config->ssso_cookiedomain;
     $cookieexpiry = $this->config->ssso_cookieexpiry;
     $cookiekey = $this->config->ssso_cookiesecret;
+    $cookiesalt = $this->config->ssso_cookiesalt;
 
     // delete old cookie
     setcookie($cookiename, '', time()-HOURSECS, $cookiepath, $cookiedomain);
@@ -121,8 +123,8 @@ class auth_plugin_ssso extends auth_plugin_base {
       $ck_ip = $_SERVER["REMOTE_ADDR"];
       $ck_username = $username;
       $ck_expiry = time()+(HOURSECS*$cookieexpiry);
-      $cookievalue = ssso_get_cookie_value($cookiekey, $ck_username,
-                                           $ck_ip, $ck_expiry, $m_email);
+      $cookievalue = ssso_get_cookie_data($cookiekey, $cookiesalt, $ck_username,
+                                          $ck_ip, $ck_expiry, $m_email);
       setcookie($cookiename, $cookievalue, $ck_expiry,
                 $cookiepath, $cookiedomain);
     }
