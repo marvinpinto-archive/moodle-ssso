@@ -15,5 +15,5 @@
   the License.
 */
 
-$plugin->version = 2012092400;
+$plugin->version = 2012092405;
 

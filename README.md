@@ -45,6 +45,8 @@ know](https://github.com/marvinpinto/moodle-ssso/issues) if this isn't the case.
 <a name="installation"></a>
 ## Installation
 
+    $ apt-get install php5-mcrypt
+    $ /etc/init.d/apache2 restart
     $ cd /path/to/your/moodle/installation
     $ cd auth
     $ git clone https://github.com/marvinpinto/moodle-ssso.git ssso
