@@ -108,26 +108,20 @@ following protocol will need to be adhered to:
  1. Consumer will read in and decrypt the domain cookie using the supplied
  passphrase (salt).
 
- 2. Consumer will first verify that the user's actual IP address matches the
+ 2. Consumer will then verify that the user's actual IP address matches the
  value specified in the cookie.
 
- 3. Consumer will then verify that the cookie's actual expiry date matches the
- value specified in the cookie's encrypted data.
+ 3. If `2` fails, consider this is a bogus login attempt and redirect the user
+ to the appropriate login page.
 
- 4. If either of `2` or `3` fail, consider this is a bogus login attempt and
- redirect the user to the appropriate login page.
-
- 5. It goes without saying but if this cookie is _not_ present, the user is not
+ 4. It goes without saying but if this cookie is _not_ present, the user is not
  logged in and will need to be redirected or pointed to the appropriate login
  page.
 
 
 ### Cookie Format
 
-    username=<moodle username>|email=<full email>|IP=<a.b.c.d>|expiry=<unix epoch time>
-
- - Note that the expiry date/time in the encrypted payload is encoded as [Unix
-   epoch time](http://en.wikipedia.org/wiki/Unix_time).
+    username=<moodle username>|email=<full email>|IP=<a.b.c.d>
 
  - Also note that each field is delimited by the `|` (bar) character so it
    should go without saying that Moodle usernames should _not_ contain the `|`
@@ -166,15 +160,15 @@ exploit) to negligible levels:
 
 The plaintext cookie can be encrypted using either OpenSSL DES in CBC mode or
 AES256. Look through the
-[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) for
-the relevant functions.
+[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) file
+for the relevant functions.
 
 
 #### PHP
 
 Have a look through the
-[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) for
-PHP examples.
+[lib.php](https://github.com/marvinpinto/moodle-ssso/blob/master/lib.php) file
+for PHP examples.
 
 
 #### .NET
@@ -270,15 +264,15 @@ Using the following _key_ and _salt_ values:
 
 **AES256** encrypted cookie:
 
-    T5Ew+cLmle3wcubDbcrx/dDN374ntABXJpqj+CX9Twy58PaTi0DOu2e0i2WeQIIlyBzk97sSUbKYbTQ0VnppJToAkaQn5nQrAVM/9HUewa3jO2mCqHsZXbF9faCl50YO
+    T5Ew+cLmle3wcubDbcrx/dDN374ntABXJpqj+CX9TwwbqovXitI5HIa5TTzydq18oGIsE/mV3Bu9M2ksAux0sw==
 
 **OpenSSL** encrypted cookie:
 
-    OfRbBd/Cx+mGlwVoxN/Dh/wGxMVNF5UaIxXlIrNOIzL4h3r27HjjKQzRzS8TLzTDdbEBb96narCWsLnOx6w+xrCZF3S/6FoOBEDNw4VciDkAz8V4z/WVKg==
+    OfRbBd/Cx+mGlwVoxN/Dh/wGxMVNF5UaIxXlIrNOIzL4h3r27HjjKQzRzS8TLzTDdbEBb96narBb5OSdl8nBcg==
 
 **Decrypted** contents:
 
-    username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53|expiry=1348511353
+    username=admin|email=helpdesk@schulich.yorku.ca|IP=130.63.69.53
 
 
 

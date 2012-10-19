@@ -25,22 +25,25 @@ function ssso_get_cookie_data($key, $salt, $username, $ip, $expiry, $email) {
   $data = '';
   $data .= 'username=' .$username. '|';
   $data .= 'email=' .$email. '|';
-  $data .= 'IP=' .$ip. '|';
-  $data .= 'expiry=' .$expiry;
+  /* $data .= 'IP=' .$ip. '|'; */
+  $data .= 'IP=' .$ip;
+  /* $data .= 'expiry=' .$expiry; */
 
   /* // Encrypt-decrypt using openssl */
   /* $enc_val = encrypt_openssl($key, $salt, $data); */
-  /* debugging('Key: ' .$key. ' Salt: ' .$salt); */
-  /* debugging('Plain: ' .$data); */
-  /* debugging('Encrypted: ' .$enc_val); */
-  /* debugging('Decrypted: ' .decrypt_openssl($key, $salt, $enc_val)); */
+  /* debugging('Openssl Key: ' .$key); */
+  /* debugging('Openssl Salt: ' .$salt); */
+  /* debugging('Openssl Plain: ' .$data); */
+  /* debugging('Openssl Encrypted: ' .$enc_val); */
+  /* debugging('Openssl Decrypted: ' .decrypt_openssl($key, $salt, $enc_val)); */
 
   // Encrypt-decrypt using mcrypt
   $enc_val = encrypt_RJ256($key, $salt, $data);
-  /* debugging('Key: ' .$key. ' Salt: ' .$salt); */
-  /* debugging('Plain: ' .$data); */
-  /* debugging('Encrypted: ' .$enc_val); */
-  /* debugging('Decrypted: ' .decrypt_RJ256($key, $salt, $enc_val)); */
+  /* debugging('AES Key: ' .$key); */
+  /* debugging('AES Salt: ' .$salt); */
+  /* debugging('AES Plain: ' .$data); */
+  /* debugging('AES Encrypted: ' .$enc_val); */
+  /* debugging('AES Decrypted: ' .decrypt_RJ256($key, $salt, $enc_val)); */
 
   return $enc_val;
 }
