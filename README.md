@@ -1,6 +1,6 @@
 # Simple Single Sign-On Authentication Module for Moodle
 
-<img style="float:left" src="https://github.com/downloads/marvinpinto/moodle-ssso/screenshot.png"/>
+![unmaintained](http://img.shields.io/badge/status-unmaintained-red.png)
 
 # Contents
 
@@ -14,6 +14,7 @@
  - [Author](#author)
 
 
+![screenshot](https://cloud.github.com/downloads/marvinpinto/moodle-ssso/screenshot.png)
 
 <a name="about"></a>
 ## About
